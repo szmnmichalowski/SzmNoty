@@ -19,6 +19,7 @@ class NotificationTest extends TestCase
 
     /**
      * @covers SzmNoty\View\Helper\Notification::__invoke
+     * @covers SzmNoty\View\Helper\Notification::getNotificationPlugin
      */
     public function testInvokeWithNoParams()
     {
