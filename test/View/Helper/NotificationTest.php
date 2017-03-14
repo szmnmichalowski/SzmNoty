@@ -3,6 +3,7 @@ namespace SzmNotyTest\View\Helper;
 
 use PHPUnit\Framework\TestCase;
 use SzmNoty\View\Helper\Notification;
+use SzmNotification\Controller\Plugin\Notification as Plugin;
 
 class NotificationTest extends TestCase
 {
@@ -14,5 +15,13 @@ class NotificationTest extends TestCase
     public function setUp()
     {
         $this->notification = new Notification();
+    }
+
+    /**
+     * @covers SzmNoty\View\Helper\Notification::__invoke
+     */
+    public function testInvokeWithNoParams()
+    {
+        $this->assertInstanceOf(Plugin::class, $this->notification->__invoke());
     }
 }
