@@ -18,6 +18,11 @@ class Notification extends AbstractHelper
     protected $options;
 
     /**
+     * @var bool
+     */
+    protected $includeLibrary = false;
+
+    /**
      * @return mixed
      */
     public function __invoke()
@@ -40,6 +45,22 @@ class Notification extends AbstractHelper
     public function setOptions($options)
     {
         $this->options = $options;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getIncludeLibrary()
+    {
+        return $this->includeLibrary;
+    }
+
+    /**
+     * @param bool $includeLibrary
+     */
+    public function setIncludeLibrary($includeLibrary)
+    {
+        $this->includeLibrary = $includeLibrary;
     }
 
     /**

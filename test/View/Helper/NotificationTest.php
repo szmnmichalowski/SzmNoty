@@ -31,11 +31,24 @@ class NotificationTest extends TestCase
      * @covers SzmNoty\View\Helper\Notification::getOptions
      * @covers SzmNoty\View\Helper\Notification::setOptions
      */
-    public function testGetOptions()
+    public function testGetAndSetOptions()
     {
         $options = new Options();
         $this->notification->setOptions($options);
 
         $this->assertInstanceOf(Options::class, $this->notification->getOptions());
+    }
+
+    /**
+     * @covers SzmNoty\View\Helper\Notification::getIncludeLibrary
+     * @covers SzmNoty\View\Helper\Notification::setIncludeLibrary
+     */
+    public function testGetAndSetIncludeLibrary()
+    {
+        $this->assertFalse($this->notification->getIncludeLibrary());
+
+        $this->notification->setIncludeLibrary(true);
+
+        $this->assertTrue($this->notification->getIncludeLibrary());
     }
 }
