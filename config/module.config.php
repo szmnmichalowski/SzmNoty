@@ -3,9 +3,12 @@
 namespace SzmNoty;
 
 return [
-    'view_manager' => [
-        'template_path_stack' => [
-            __DIR__ . '/../view',
+    'view_helpers' => [
+        'aliases' => [
+            'notification' => View\Helper\Notification::class
         ],
+        'factories' => [
+            View\Helper\Notification::class => Factory\View\Helper\NotificationFactory::class
+        ]
     ],
 ];
