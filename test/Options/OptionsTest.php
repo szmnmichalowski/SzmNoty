@@ -7,12 +7,17 @@ use SzmNoty\Options\Options;
 class OptionsTest extends TestCase
 {
     /**
-     * @var Options
+     * @covers SzmNoty\Options\Options::getLibraryUrl
+     * @covers SzmNoty\Options\Options::setLibraryUrl
      */
-    protected $options;
-
-    public function setUp()
+    public function testLibraryUrl()
     {
-        $this->options = new Options();
+        $value = 'www.example.com';
+        $data = [
+            'library_url' => $value
+        ];
+        $options = new Options($data);
+
+        $this->assertEquals($value, $options->getLibraryUrl());
     }
 }

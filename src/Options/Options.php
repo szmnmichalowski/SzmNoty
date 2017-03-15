@@ -6,23 +6,23 @@ use Zend\Stdlib\AbstractOptions;
 class Options extends AbstractOptions
 {
     /**
-     * @var array
+     * @var string
      */
-    protected $types = [];
+    protected $libraryUrl = '';
 
     /**
-     * @return array
+     * @return string
      */
-    public function getTypes()
+    public function getLibraryUrl()
     {
-        return $this->types;
+        return $this->libraryUrl;
     }
 
     /**
-     * @param array $types
+     * @param string $libraryUrl
      */
-    public function setTypes($types)
+    public function setLibraryUrl($libraryUrl)
     {
-        $this->types = $types;
+        $this->libraryUrl = $libraryUrl;
     }
 }
