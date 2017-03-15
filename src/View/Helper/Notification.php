@@ -31,6 +31,32 @@ class Notification extends AbstractHelper
     }
 
     /**
+     * Return javascript code
+     *
+     * @return string
+     */
+    public function render()
+    {
+        $plugin = $this->getNotificationPlugin();
+        $notifications = $plugin->getCurrent('success');
+        $js = '';
+
+        foreach ($notifications as $notification) {
+            $js .= <<<SCRIPT
+        <script type="text/javascript">
+            noty({
+                text: '{$notification}',
+                layout: 'topRight',
+                type: 'success'
+            });
+        </script>
+SCRIPT;
+        }
+
+        return $js;
+    }
+
+    /**
      * @return Options
      */
     public function getOptions()
