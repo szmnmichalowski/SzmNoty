@@ -27,8 +27,7 @@ class Notification extends AbstractHelper
      */
     public function __invoke()
     {
-        $plugin = $this->getNotificationPlugin();
-        return $plugin;
+        return $this;
     }
 
     /**

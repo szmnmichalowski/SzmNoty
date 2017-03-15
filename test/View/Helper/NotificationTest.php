@@ -24,7 +24,7 @@ class NotificationTest extends TestCase
      */
     public function testInvokeWithNoParams()
     {
-        $this->assertInstanceOf(Plugin::class, $this->notification->__invoke());
+        $this->assertInstanceOf(Notification::class, $this->notification->__invoke());
     }
 
     /**
