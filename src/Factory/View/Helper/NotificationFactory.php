@@ -17,12 +17,14 @@ class NotificationFactory implements FactoryInterface
      */
     public function __invoke(ContainerInterface $container, $name = null, array $options = null)
     {
-        $class = new Notification();
+        $controllerPlugin = $container->get('ControllerPluginManager')->get('notification');
         $config = $container->get('Config');
         $config = isset($config['notifications']) ? $config['notifications'] : [];
         $optionsClass = new Options($config);
 
+        $class = new Notification();
         $class->setOptions($optionsClass);
+        $class->setPlugin($controllerPlugin);
 
         return $class;
     }

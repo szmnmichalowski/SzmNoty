@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 use SzmNoty\Factory\View\Helper\NotificationFactory;
 use SzmNoty\Options\Options;
 use SzmNoty\View\Helper\Notification;
+use SzmNotification\Controller\Plugin\Notification as Plugin;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 class NotificationFactoryTest extends TestCase
@@ -33,7 +34,11 @@ class NotificationFactoryTest extends TestCase
             'notifications' => []
         ];
 
+        $controllerPlugin = new Plugin();
         $serviceLocator = $this->prophesize(ServiceLocatorInterface::class);
+        $serviceLocator->get('ControllerPluginManager')
+            ->willReturn($controllerPlugin)
+            ->shouldBeCalled();
         $serviceLocator->get('Config')
             ->willReturn($config)
             ->shouldBeCalled();
@@ -42,5 +47,6 @@ class NotificationFactoryTest extends TestCase
 
         $this->assertInstanceOf(Notification::class, $result);
         $this->assertInstanceOf(Options::class, $result->getOptions());
+        $this->assertInstanceOf(Plugin::class, $result->getNotificationPlugin());
     }
 }
