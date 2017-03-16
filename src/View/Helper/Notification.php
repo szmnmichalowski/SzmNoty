@@ -88,6 +88,10 @@ class Notification extends AbstractHelper
             $notifications[$namespace] = $plugin->get($namespace);
         }
 
+        if ($this->getIncludeLibrary()) {
+            $jsCode .= $this->renderNotificationLibrary();
+        }
+
         $jsCode .= $this->renderNotifications($notifications, $options);
         return $jsCode;
     }
@@ -117,6 +121,16 @@ class Notification extends AbstractHelper
     }
 
     /**
+     * Return javascript code with noty library
+     *
+     * @return string
+     */
+    protected function renderNotificationLibrary()
+    {
+        return '<script type="text/javascript" src="'.$this->options->getLibraryUrl().'"></script>';
+    }
+
+    /**
      * @return Options
      */
     public function getOptions()
@@ -142,10 +156,12 @@ class Notification extends AbstractHelper
 
     /**
      * @param bool $includeLibrary
+     * @return $this
      */
     public function setIncludeLibrary($includeLibrary)
     {
         $this->includeLibrary = $includeLibrary;
+        return $this;
     }
 
     /**
