@@ -24,7 +24,7 @@ class NotificationFactory implements FactoryInterface
 
         $class = new Notification();
         $class->setOptions($optionsClass);
-        $class->setPlugin($controllerPlugin);
+        $class->setNotificationPlugin($controllerPlugin);
 
         return $class;
     }
