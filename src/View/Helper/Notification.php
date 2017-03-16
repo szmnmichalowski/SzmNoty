@@ -33,27 +33,87 @@ class Notification extends AbstractHelper
     /**
      * Return javascript code
      *
+     * @param $notifications
+     * @param array $options
      * @return string
      */
-    public function render()
+    protected function renderNotifications($notifications, $options = [])
     {
-        $plugin = $this->getNotificationPlugin();
-        $notifications = $plugin->getCurrent('success');
-        $js = '';
-
-        foreach ($notifications as $notification) {
-            $js .= <<<SCRIPT
-        <script type="text/javascript">
-            noty({
-                text: '{$notification}',
-                layout: 'topRight',
-                type: 'success'
-            });
-        </script>
-SCRIPT;
+        $js = '<script type="text/javascript">';
+        foreach ($notifications as $type => $notification) {
+            $js .= $this->renderSingleNamespace($type, $notification, $options);
         }
+        $js .= '</script>';
 
         return $js;
+    }
+
+    /**
+     * Render current notifications
+     *
+     * @param null $namespace
+     * @param array $options
+     * @return string
+     */
+    public function renderCurrent($namespace = null, $options = [])
+    {
+        $notifications = [];
+        $plugin = $this->getNotificationPlugin();
+
+        if (!$namespace) {
+            $notifications = $plugin->getAllCurrent();
+        } else {
+            $notifications[$namespace] = $plugin->getCurrent($namespace);
+        }
+
+        return $this->renderNotifications($notifications, $options);
+    }
+
+    /**
+     * Render notifications from previous requests
+     *
+     * @param null $namespace
+     * @param array $options
+     * @return string
+     */
+    public function render($namespace = null, $options = [])
+    {
+        $jsCode = '';
+        $notifications = [];
+        $plugin = $this->getNotificationPlugin();
+
+        if (!$namespace) {
+            $notifications = $plugin->getAll();
+        } else {
+            $notifications[$namespace] = $plugin->get($namespace);
+        }
+
+        $jsCode .= $this->renderNotifications($notifications, $options);
+        return $jsCode;
+    }
+
+    /**
+     * Get javascript code for single namespace
+     *
+     * @param $type
+     * @param $notifications
+     * @param array $options
+     * @return string
+     */
+    protected function renderSingleNamespace($type, $notifications, $options = [])
+    {
+        $script = '';
+        $defaultOptions = $this->options->getType($type);
+        $mergedOptions = array_merge($defaultOptions, $options);
+
+        foreach ($notifications as $notification) {
+            $mergedOptions['text'] = $notification;
+            $json = json_encode($mergedOptions);
+
+            $script .= "noty({$json});";
+        }
+
+        return $script;
     }
 
     /**
