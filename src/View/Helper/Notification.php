@@ -10,7 +10,7 @@ class Notification extends AbstractHelper
     /**
      * @var Plugin
      */
-    protected $plugin;
+    protected $notificationPlugin;
 
     /**
      * @var Options
@@ -39,7 +39,12 @@ class Notification extends AbstractHelper
      */
     protected function renderNotifications($notifications, $options = [])
     {
-        $js = '<script type="text/javascript">';
+        $js = '';
+        if ($this->getIncludeLibrary()) {
+            $js .= $this->renderNotificationLibrary();
+        }
+
+        $js .= '<script type="text/javascript">';
         foreach ($notifications as $type => $notification) {
             $js .= $this->renderSingleNamespace($type, $notification, $options);
         }
@@ -78,7 +83,6 @@ class Notification extends AbstractHelper
      */
     public function render($namespace = null, $options = [])
     {
-        $jsCode = '';
         $notifications = [];
         $plugin = $this->getNotificationPlugin();
 
@@ -88,12 +92,7 @@ class Notification extends AbstractHelper
             $notifications[$namespace] = $plugin->get($namespace);
         }
 
-        if ($this->getIncludeLibrary()) {
-            $jsCode .= $this->renderNotificationLibrary();
-        }
-
-        $jsCode .= $this->renderNotifications($notifications, $options);
-        return $jsCode;
+        return $this->renderNotifications($notifications, $options);
     }
 
     /**
@@ -167,12 +166,22 @@ class Notification extends AbstractHelper
     /**
      * @return Plugin
      */
-    protected function getNotificationPlugin()
+    public function getNotificationPlugin()
     {
-        if (!$this->plugin) {
-            $this->plugin = new Plugin();
+        if (!$this->notificationPlugin) {
+            $this->notificationPlugin = new Plugin();
         }
 
-        return $this->plugin;
+        return $this->notificationPlugin;
+    }
+
+    /**
+     * @param Plugin $plugin
+     * @return $this
+     */
+    public function setNotificationPlugin($plugin)
+    {
+        $this->notificationPlugin = $plugin;
+        return $this;
     }
 }
