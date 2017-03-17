@@ -44,6 +44,10 @@ class Notification extends AbstractHelper
             $js .= $this->renderNotificationLibrary();
         }
 
+        if (!empty($this->options->getDefaultOptions())) {
+            $js .= $this->renderDefaultOptions();
+        }
+
         $js .= '<script type="text/javascript">';
         foreach ($notifications as $type => $notification) {
             $js .= $this->renderSingleNamespace($type, $notification, $options);
@@ -127,6 +131,22 @@ class Notification extends AbstractHelper
     protected function renderNotificationLibrary()
     {
         return '<script type="text/javascript" src="'.$this->options->getLibraryUrl().'"></script>';
+    }
+
+    /**
+     * Return javascript code to overwrite default options
+     *
+     * @return string
+     */
+    protected function renderDefaultOptions()
+    {
+        $json = json_encode($this->getOptions()->getDefaultOptions());
+
+        $js = '<script type="text/javascript">';
+        $js .= 'Object.assign($.noty.defaults, '.$json.');';
+        $js .= '</script>';
+
+        return $js;
     }
 
     /**
