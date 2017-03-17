@@ -140,9 +140,19 @@ class Notification extends AbstractHelper
      */
     protected function renderDefaultOptions()
     {
-        $json = json_encode($this->getOptions()->getDefaultOptions());
-
         $js = '<script type="text/javascript">';
+        $defaultOptions = $this->getOptions()->getDefaultOptions();
+
+        if (isset($defaultOptions['callback'])) {
+            $callbacks = $defaultOptions['callback'];
+            unset($defaultOptions['callback']);
+
+            foreach ($callbacks as $name => $function) {
+                $js .= '$.noty.defaults.callback.'.$name.' = '.$function.';';
+            }
+        }
+        $json = json_encode($defaultOptions);
+
         $js .= 'Object.assign($.noty.defaults, '.$json.');';
         $js .= '</script>';
 
