@@ -13,6 +13,11 @@ class Options extends AbstractOptions
     /**
      * @var array
      */
+    protected $defaultOptions = [];
+
+    /**
+     * @var array
+     */
     protected $types = [];
 
     /**
@@ -29,6 +34,22 @@ class Options extends AbstractOptions
     public function setLibraryUrl($libraryUrl)
     {
         $this->libraryUrl = $libraryUrl;
+    }
+
+    /**
+     * @return array
+     */
+    public function getDefaultOptions()
+    {
+        return $this->defaultOptions;
+    }
+
+    /**
+     * @param array $defaultOptions
+     */
+    public function setDefaultOptions($defaultOptions)
+    {
+        $this->defaultOptions = $defaultOptions;
     }
 
     /**

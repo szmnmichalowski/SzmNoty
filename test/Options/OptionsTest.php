@@ -56,4 +56,19 @@ class OptionsTest extends TestCase
         $options = new Options($data);
         $this->assertEquals($data['types'][$name], $options->getType($name));
     }
+
+    /**
+     * @covers SzmNoty\Options\Options::getDefaultOptions
+     */
+    public function testGetAndSetDefaultOptions()
+    {
+        $data = [
+            'default_options' => [
+                'foo' => 'bar'
+            ]
+        ];
+
+        $options = new Options($data);
+        $this->assertEquals($data['default_options'], $options->getDefaultOptions());
+    }
 }
