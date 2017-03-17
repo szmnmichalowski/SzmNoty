@@ -28,15 +28,14 @@ class OptionsTest extends TestCase
     public function testGetAndSetTypes()
     {
         $data = [
-            'types' => [
-                'foo' => [
-                    'bar'
-                ]
+            'foo' => [
+                'bar'
             ]
         ];
 
-        $options = new Options($data);
-        $this->assertTrue(is_array($options->getTypes()));
+        $options = new Options();
+        $options->setTypes($data);
+        $this->assertEquals($data, $options->getTypes());
     }
 
     /**
