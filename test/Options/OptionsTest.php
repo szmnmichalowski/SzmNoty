@@ -70,4 +70,18 @@ class OptionsTest extends TestCase
         $options->setDefaultOptions($data);
         $this->assertEquals($data, $options->getDefaultOptions());
     }
+
+    public function testIfArraysKeysAreValidWithSetters()
+    {
+        $data = [
+            'library_url' => '',
+            'default_options' => [],
+            'types' => [],
+        ];
+
+        $options = new Options($data);
+        $this->assertEquals('', $options->getLibraryUrl());
+        $this->assertEquals([], $options->getDefaultOptions());
+        $this->assertEquals([], $options->getTypes());
+    }
 }
