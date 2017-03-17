@@ -37,7 +37,7 @@ class Notification extends AbstractHelper
      * @param array $options
      * @return string
      */
-    protected function renderNotifications($notifications, $options = [])
+    protected function renderNotifications($notifications, array $options = [])
     {
         $js = '';
         if ($this->getIncludeLibrary()) {
@@ -60,7 +60,7 @@ class Notification extends AbstractHelper
      * @param array $options
      * @return string
      */
-    public function renderCurrent($namespace = null, $options = [])
+    public function renderCurrent($namespace = null, array $options = [])
     {
         $notifications = [];
         $plugin = $this->getNotificationPlugin();
@@ -81,7 +81,7 @@ class Notification extends AbstractHelper
      * @param array $options
      * @return string
      */
-    public function render($namespace = null, $options = [])
+    public function render($namespace = null, array $options = [])
     {
         $notifications = [];
         $plugin = $this->getNotificationPlugin();
