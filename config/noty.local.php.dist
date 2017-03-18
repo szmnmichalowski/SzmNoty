@@ -1,0 +1,9 @@
+<?php
+
+return [
+    'notifications' => [
+        'library_url' => '',
+        'default_options' => [],
+        'types' => [],
+    ]
+];
