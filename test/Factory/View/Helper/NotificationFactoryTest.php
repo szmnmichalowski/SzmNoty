@@ -41,8 +41,8 @@ class NotificationFactoryTest extends TestCase
     }
 
     /**
-     * @covers SzmNoty\Factory\View\Helper::createService
-     * @covers SzmNoty\Factory\View\Helper::__invoke
+     * @covers SzmNoty\Factory\View\Helper\NotificationFactory::createService
+     * @covers SzmNoty\Factory\View\Helper\NotificationFactory::__invoke
      */
     public function testCanCreateService()
     {
