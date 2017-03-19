@@ -88,4 +88,159 @@ class NotificationTest extends TestCase
     {
         $this->assertInstanceOf(Plugin::class, $this->notification->getNotificationPlugin());
     }
+
+    /**
+     * @covers SzmNoty\View\Helper\Notification::renderCurrent
+     * @covers SzmNoty\View\Helper\Notification::renderNotifications
+     * @covers SzmNoty\View\Helper\Notification::isEmpty
+     */
+    public function testRenderCurrentShouldReturnNullWhenNoNotifications()
+    {
+        $this->assertEquals(null, $this->notification->renderCurrent());
+    }
+
+    /**
+     * @covers SzmNoty\View\Helper\Notification::renderCurrent
+     * @covers SzmNoty\View\Helper\Notification::renderNotifications
+     * @covers SzmNoty\View\Helper\Notification::isEmpty
+     */
+    public function testRenderCurrentNamespaceWithNoNotifications()
+    {
+        $this->assertEquals(null, $this->notification->renderCurrent('test'));
+    }
+
+    /**
+     * @covers SzmNoty\View\Helper\Notification::renderCurrent
+     * @covers SzmNoty\View\Helper\Notification::renderNotifications
+     * @covers SzmNoty\View\Helper\Notification::isEmpty
+     * @covers SzmNoty\View\Helper\Notification::renderSingleNamespace
+     */
+    public function testRenderCurrentNamespaceWithNotifications()
+    {
+        $options = $this->prophesize(Options::class);
+        $options->getDefaultOptions()
+            ->willReturn([])
+            ->shouldBeCalled();
+        $options->getType('info')
+            ->willReturn([])
+            ->shouldBeCalled();
+
+        $this->notification->setOptions($options->reveal());
+
+        $plugin = $this->notification->getNotificationPlugin();
+        $plugin->add('info', 'test');
+
+        $htmlPattern = '#<script ([\w\W]*)</script>#';
+        $html = $this->notification->renderCurrent('info');
+        $this->assertTrue((bool) preg_match($htmlPattern, $html));
+    }
+
+    /**
+     * @covers SzmNoty\View\Helper\Notification::renderNotifications
+     * @covers SzmNoty\View\Helper\Notification::renderNotificationLibrary
+     */
+    public function testRenderNamespaceWithNotificationsAndLibrary()
+    {
+        $options = $this->prophesize(Options::class);
+        $options->getDefaultOptions()
+            ->willReturn([])
+            ->shouldBeCalled();
+        $options->getType('info')
+            ->willReturn([])
+            ->shouldBeCalled();
+        $options->getLibraryUrl()
+            ->willReturn('www.example.com')
+            ->shouldBeCalled();
+
+        $this->notification->setOptions($options->reveal());
+        $this->notification->setIncludeLibrary(true);
+
+        $plugin = $this->notification->getNotificationPlugin();
+        $plugin->add('info', 'test');
+
+        $htmlPattern = '#<script ([\w\W]*)</script>#';
+        $html = $this->notification->renderCurrent('info');
+        $this->assertTrue((bool) preg_match($htmlPattern, $html));
+    }
+
+    /**
+     * @covers SzmNoty\View\Helper\Notification::renderNotifications
+     * @covers SzmNoty\View\Helper\Notification::renderDefaultOptions
+     */
+    public function testRenderNamespaceWithNotificationsAndDefaultOptions()
+    {
+        $defaultOptions = [
+            'layout' => 'top',
+            'callback' => [
+                'afterClose' => 'function(){}'
+            ]
+        ];
+        $options = $this->prophesize(Options::class);
+        $options->getDefaultOptions()
+            ->willReturn($defaultOptions)
+            ->shouldBeCalled();
+        $options->getType('info')
+            ->willReturn([])
+            ->shouldBeCalled();
+        $options->getLibraryUrl()
+            ->willReturn('www.example.com')
+            ->shouldBeCalled();
+
+        $this->notification->setOptions($options->reveal());
+        $this->notification->setIncludeLibrary(true);
+
+        $plugin = $this->notification->getNotificationPlugin();
+        $plugin->add('info', 'test');
+
+        $htmlPattern = '#<script ([\w\W]*)</script>#';
+        $html = $this->notification->renderCurrent('info');
+        $this->assertTrue((bool) preg_match($htmlPattern, $html));
+    }
+
+    /**
+     * @covers SzmNoty\View\Helper\Notification::render
+     * @covers SzmNoty\View\Helper\Notification::renderNotifications
+     * @covers SzmNoty\View\Helper\Notification::isEmpty
+     */
+    public function testRenderShouldReturnNullWhenNoNotifications()
+    {
+        $this->assertEquals(null, $this->notification->render());
+    }
+
+    /**
+     * @covers SzmNoty\View\Helper\Notification::render
+     * @covers SzmNoty\View\Helper\Notification::renderNotifications
+     * @covers SzmNoty\View\Helper\Notification::isEmpty
+     */
+    public function testRenderNamespaceWithNoNotifications()
+    {
+        $this->assertEquals(null, $this->notification->render('test'));
+    }
+
+    /**
+     * @covers SzmNoty\View\Helper\Notification::render
+     * @covers SzmNoty\View\Helper\Notification::renderNotifications
+     * @covers SzmNoty\View\Helper\Notification::isEmpty
+     * @covers SzmNoty\View\Helper\Notification::renderSingleNamespace
+     */
+    public function testRenderNamespaceWithNotifications()
+    {
+        $options = $this->prophesize(Options::class);
+        $options->getDefaultOptions()
+            ->willReturn([])
+            ->shouldBeCalled();
+        $options->getType('info')
+            ->willReturn([])
+            ->shouldBeCalled();
+
+        $this->notification->setOptions($options->reveal());
+
+        $plugin = $this->notification->getNotificationPlugin();
+        $plugin->add('info', 'test');
+        $this->notification->setNotificationPlugin(new Plugin());
+
+        $htmlPattern = '#<script ([\w\W]*)</script>#';
+        $html = $this->notification->render('info');
+        $this->assertTrue((bool) preg_match($htmlPattern, $html));
+    }
 }

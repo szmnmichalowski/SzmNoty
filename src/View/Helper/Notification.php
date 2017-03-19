@@ -56,6 +56,10 @@ class Notification extends AbstractHelper
      */
     protected function renderNotifications($notifications, array $options = [])
     {
+        if ($this->isEmpty($notifications)) {
+            return;
+        }
+
         $js = '';
         if ($this->getIncludeLibrary()) {
             $js .= $this->renderNotificationLibrary();
@@ -72,6 +76,27 @@ class Notification extends AbstractHelper
         $js .= '</script>';
 
         return $js;
+    }
+
+    /**
+     * Check if notifications is empty
+     *
+     * @param $notifications
+     * @return bool
+     */
+    protected function isEmpty($notifications)
+    {
+        if (!$notifications) {
+            return true;
+        }
+
+        foreach ($notifications as $notification) {
+            if (empty($notification)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
