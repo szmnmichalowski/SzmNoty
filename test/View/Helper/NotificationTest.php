@@ -72,12 +72,20 @@ class NotificationTest extends TestCase
      * @covers SzmNoty\View\Helper\Notification::getNotificationPlugin
      * @covers SzmNoty\View\Helper\Notification::setNotificationPlugin
      */
-    public function testGetNotificationPlugin()
+    public function testGetAndSetNotificationPlugin()
     {
         $obj = new Plugin();
         $hash = spl_object_hash($obj);
         $this->notification->setNotificationPlugin($obj);
 
         $this->assertEquals($hash, spl_object_hash($this->notification->getNotificationPlugin()));
+    }
+
+    /**
+     * @covers SzmNoty\View\Helper\Notification::getNotificationPlugin
+     */
+    public function testGetNotificationPlugin()
+    {
+        $this->assertInstanceOf(Plugin::class, $this->notification->getNotificationPlugin());
     }
 }
