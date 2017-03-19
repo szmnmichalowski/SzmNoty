@@ -37,7 +37,6 @@ class NotificationTest extends TestCase
 
     /**
      * @covers SzmNoty\View\Helper\Notification::__invoke
-     * @covers SzmNoty\View\Helper\Notification::getNotificationPlugin
      */
     public function testInvokeWithNoParams()
     {
@@ -67,5 +66,18 @@ class NotificationTest extends TestCase
         $this->notification->setIncludeLibrary(true);
 
         $this->assertTrue($this->notification->getIncludeLibrary());
+    }
+
+    /**
+     * @covers SzmNoty\View\Helper\Notification::getNotificationPlugin
+     * @covers SzmNoty\View\Helper\Notification::setNotificationPlugin
+     */
+    public function testGetNotificationPlugin()
+    {
+        $obj = new Plugin();
+        $hash = spl_object_hash($obj);
+        $this->notification->setNotificationPlugin($obj);
+
+        $this->assertEquals($hash, spl_object_hash($this->notification->getNotificationPlugin()));
     }
 }
