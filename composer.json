@@ -22,7 +22,8 @@
   },
   "require-dev": {
     "container-interop/container-interop": "^1.1",
-    "zendframework/zend-test": "^2.5"
+    "zendframework/zend-test": "^2.5",
+    "zendframework/zend-modulemanager": "^2.7"
   },
   "autoload": {
     "psr-4": {
